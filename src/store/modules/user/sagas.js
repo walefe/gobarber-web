@@ -7,13 +7,19 @@ import { updateProfileSuccess, updateProfileFailure } from './actions';
 
 export function* updateProfile({ payload }) {
   try {
-    const { name, email, ...rest } = payload.data;
+    const { name, email, avatar_id, ...rest } = payload.data;
 
-    const profile = {
-      name,
-      email,
-      ...(rest.oldPassword ? rest : {}),
-    };
+    // const profile = {
+    //   name,
+    //   avatar_id,
+    //   email,
+    //   ...(rest.oldPassword ? rest : {}),
+    // };
+
+    const profile = Object.assign(
+      { name, email, avatar_id },
+      rest.oldPassword ? rest : {}
+    );
 
     const response = yield call(api.put, 'users', profile);
 
